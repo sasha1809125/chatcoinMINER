@@ -1,15 +1,25 @@
-let minedCHC = 0;
-const miningSpeed = 180 / 24; // 1 CHC за 24 часа
-const miningInterval = 1000; // Обновление каждую секунду
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Имитация майнинга CHC и GLC</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #status { font-size: 22px; margin: 20px; }
+        button { padding: 10px 20px; font-size: 18px; margin: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Майнинг CHC и GLC</h1>
+    <div id="status">
+        Добыто: <br>
+        <span id="chcCount">CHC: 0</span><br>
+        <span id="glcCount">GLC: 0</span>
+    </div>
+    <button id="startMining">Начать майнинг</button>
+    <button id="exchange">Обмен CHC → GLC</button>
 
-document.getElementById("startMining").addEventListener("click", function() {
-    setInterval(() => {
-        minedCHC += miningSpeed / (60 * 60); // Конвертируем в часы
-        document.getElementById("miningStatus").innerText = `Добыто: ${minedCHC.toFixed(4)} CHC`;
-    }, miningInterval);
-    
-    // Отправляем данные на сервер каждый час (это будет потом, если потребуется)
-    // setInterval(() => {
-    //     sendMinedData(minedCHC);
-    // }, 3600000); // 1 час
-});
+    <script src="script.js?v=3"></script>
+</body>
+</html>
