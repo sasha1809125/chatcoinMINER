@@ -1,25 +1,35 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Имитация майнинга CHC и GLC</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        #status { font-size: 22px; margin: 20px; }
-        button { padding: 10px 20px; font-size: 18px; margin: 10px; }
-    </style>
-</head>
-<body>
-    <h1>Майнинг CHC и GLC</h1>
-    <div id="status">
-        Добыто: <br>
-        <span id="chcCount">CHC: 0</span><br>
-        <span id="glcCount">GLC: 0</span>
-    </div>
-    <button id="startMining">Начать майнинг</button>
-    <button id="exchange">Обмен CHC → GLC</button>
+let minedCHC = 0;
+let minedGLC = 0;
 
-    <script src="script.js?v=3"></script>
-</body>
-</html>
+const miningSpeedCHC = 1 / 24; // 1 CHC за 24 часа
+const miningSpeedGLC = 0.5 / 24; // 0.5 GLC за 24 часа
+const updateInterval = 1000; // обновление каждую секунду
+
+let miningStarted = false;
+
+document.getElementById("startMining").addEventListener("click", () => {
+    if (miningStarted) return;
+    miningStarted = true;
+
+    setInterval(() => {
+        minedCHC += miningSpeedCHC / 3600;
+        minedGLC += miningSpeedGLC / 3600;
+
+        document.getElementById("chcCount").innerText = CHC: ${minedCHC.toFixed(4)};
+        document.getElementById("glcCount").innerText = GLC: ${minedGLC.toFixed(4)};
+    }, updateInterval);
+});
+
+// курс обмена — 1 CHC = 140 GLC
+const exchangeRate = 140;
+
+document.getElementById("exchange").addEventListener("click", () => {
+    if (minedCHC >= 1) {
+        minedCHC -= 1;
+        minedGLC += exchangeRate;
+        document.getElementById("chcCount").innerText = CHC: ${minedCHC.toFixed(4)};
+        document.getElementById("glcCount").innerText = GLC: ${minedGLC.toFixed(4)};
+    } else {
+        alert("Недостаточно CHC для обмена!");
+    }
+});
