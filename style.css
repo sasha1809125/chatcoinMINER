@@ -1,0 +1,69 @@
+body {
+    margin: 0;
+    background: black;
+    font-family: "Chicago", sans-serif;
+    user-select: none;
+}
+
+.hidden { display: none; }
+
+#boot-screen {
+    width: 100%;
+    height: 100vh;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome-box {
+    border: 2px solid black;
+    padding: 20px 40px;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+#desktop {
+    width: 100%;
+    height: 100vh;
+    background: url("assets/wallpaper.png") repeat;
+    position: relative;
+}
+
+.icon {
+    width: 48px;
+    cursor: pointer;
+    position: absolute;
+}
+
+#icon-hd   { top: 40px; left: 40px; }
+#icon-finder { top: 120px; left: 40px; }
+#icon-trash { bottom: 40px; right: 40px; }
+
+.window {
+    position: absolute;
+    top: 150px;
+    left: 200px;
+    width: 260px;
+    background: white;
+    border: 2px solid black;
+}
+
+.titlebar {
+    background: #c0c0c0;
+    padding: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid black;
+}
+
+.window-content {
+    padding: 10px;
+}
+
+.close-btn {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
