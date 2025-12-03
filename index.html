@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>ChatCoin Official Miner</title>
+<link rel="manifest" href="manifest.json">
+
+<style>
+    body {
+        margin:0;
+        font-family: Arial, sans-serif;
+        background: radial-gradient(circle at top, #001f1d, #000000 70%);
+        color: #00ffe6;
+        text-align: center;
+        overflow-x: hidden;
+    }
+
+    /* Анимация космического шума */
+    body::before {
+        content:"";
+        position:fixed;
+        left:0;
+        top:0;
+        width:100%;
+        height:100%;
+        background:url('https://i.imgur.com/zkLJq9R.gif');
+        opacity:0.07;
+        pointer-events:none;
+    }
+
+    h1 {
+        margin-top: 30px;
+        font-size: 40px;
+        text-shadow: 0 0 20px #00fff6, 0 0 40px #00fff6;
+    }
+
+    #logo {
+        width: 140px;
+        margin-top:15px;
+        filter: drop-shadow(0 0 15px #00fff6);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { transform:scale(1); opacity:0.9; }
+        50% { transform:scale(1.07); opacity:1; }
+        100% { transform:scale(1); opacity:0.9; }
+    }
+
+    #numberBox {
+        margin-top: 30px;
+        font-size: 34px;
+        letter-spacing: 4px;
+        padding: 20px;
+        display: inline-block;
+        border: 2px solid #00fff6;
+        border-radius: 10px;
+        background: rgba(0,255,230,0.09);
+        text-shadow: 0 0 8px #00fff6;
+    }
+
+    #currentTry {
+        margin-top: 25px;
+        font-size: 26px;
+        text-shadow: 0 0 6px #00fff6;
+    }
+
+    button {
+        margin-top: 30px;
+        padding: 15px 40px;
+        font-size: 22px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        background: linear-gradient(90deg, #00fff6, #00d9ff);
+        color: #000;
+        font-weight: bold;
+        transition: 0.2s;
+        box-shadow: 0 0 15px #00fff6;
+    }
+
+    button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px #00fff6;
+    }
+
+    #balance {
+        margin-top: 40px;
+        font-size: 28px;
+        text-shadow: 0 0 10px #00fff6;
+    }
+
+    #receipt {
+        margin-top: 30px;
+        display: none;
+        padding: 20px;
+        width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+        border: 2px solid #000;
+        border-radius: 10px;
+        background: white;
+        color: black;
+        font-family: monospace;
+        box-shadow: 0 0 20px #ffffff;
+    }
+</style>
+</head>
+<body>
+
+<img id="logo" src="chc_logo.png">
+
+<h1>ChatCoin Official Miner</h1>
+
+<div id="numberBox">--------</div>
+
+<div id="currentTry">Текущее число: --------</div>
+
+<button id="startBtn">НАЧАТЬ</button>
+
+<div id="balance">Баланс: 0 CHC</div>
+
+<button id="withdrawBtn">ВЫВОД</button>
+
+<div id="receipt"></div>
+
+<script>
+    let target = null;
+    let mining = false;
+    let balance = 0;
+
+    function newTarget() {
+        target = String(Math.floor(Math.random()*100000000)).padStart(8,'0');
+        document.getElementById("numberBox").innerText = target;
+    }
+
+    newTarget();
+
+    document.getElementById("startBtn").onclick = () => {
+        if (mining) return;
+        mining = true;
+        mine();
+    };
+
+    function mine() {
+        let current = 0;
+        const tryBox = document.getElementById("currentTry");
+        
+        let interval = setInterval(() => {
+            current = Math.floor(Math.random()*100000000);
+            let formatted = String(current).padStart(8,'0');
+            tryBox.innerText = "Текущее число: " + formatted;
+
+            if (formatted === target) {
+                clearInterval(interval);
+                mining = false;
+
+                balance += 10;
+                document.getElementById("balance").innerText =
+                    "Баланс: " + balance + " CHC";
+
+                newTarget();
+            }
+        }, 15); // быстрее
+    }
+
+    document.getElementById("withdrawBtn").onclick = () => {
+        const receipt = document.getElementById("receipt");
+        const shillings = balance * 240;
+
+        receipt.style.display = "block";
+
+        receipt.innerHTML =
+            "====== ЧЕК CHC ======<br>" +
+            "Баланс: " + balance + " CHC<br>" +
+            "Курс: 1 CHC = 240 шиллингов<br>" +
+            "Выплачено: " + shillings + " шиллингов<br>" +
+            "======================";
+
+        balance = 0;
+        document.getElementById("balance").innerText = "Баланс: 0 CHC";
+    };
+</script>
+
+</body>
+</html>
