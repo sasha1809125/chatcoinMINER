@@ -1,73 +1,63 @@
 let mining = false;
-let currentGuess = 0;
-let target = "????????";
+let interval;
+let timeout;
+
+let target = random8();
 let balance = 0;
-let miningTimeout;
 
-const guessDisplay = document.getElementById("guess");
-const targetDisplay = document.getElementById("target");
-const balanceDisplay = document.getElementById("balance");
-const startButton = document.getElementById("startBtn");
+document.getElementById("target").innerText = target;
 
-updateUI();
+function random8() {
+    return Math.floor(10000000 + Math.random() * 90000000).toString();
+}
 
-// Запуск майнинга
-function startMining() {
+document.getElementById("startBtn").onclick = () => {
     if (mining) return;
 
     mining = true;
-    startButton.disabled = true;
 
-    // Генерируем скрытое 8-значное число
-    target = generateRandomNumber(8);
-    targetDisplay.textContent = "????????";
+    interval = setInterval(() => {
+        let n = Math.floor(Math.random() * 100000000)
+                .toString().padStart(8, "0");
+        document.getElementById("try").innerText = n;
+    }, 30);
 
-    startGuessAnimation();
+    let time = 300000 + Math.random() * 300000;
 
-    // Время добычи: 5–10 минут
-    const timeToWin = randomRange(5 * 60_000, 10 * 60_000);
+    timeout = setTimeout(() => {
+        mining = false;
+        clearInterval(interval);
 
-    miningTimeout = setTimeout(() => {
-        finishMining();
-    }, timeToWin);
+        balance += 10;
+        document.getElementById("balance").innerText = balance;
+
+        target = random8();
+        document.getElementById("target").innerText = target;
+    }, time);
+};
+
+document.getElementById("withdrawBtn").onclick = () => {
+    const shillings = balance * 240;
+
+    document.getElementById("modalText").innerHTML =
+        `Вы вывели <b>${balance} CHC</b><br>
+         Это <b>${shillings}</b> шиллингов`;
+
+    balance = 0;
+    document.getElementById("balance").innerText = balance;
+
+    document.getElementById("modal").style.display = "block";
+};
+
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
 }
 
-// Показывает быстро меняющиеся числа
-function startGuessAnimation() {
-    if (!mining) return;
+document.getElementById("modeBtn").onclick = () => {
+    document.body.classList.toggle("day");
 
-    currentGuess = generateRandomNumber(8);
-    guessDisplay.textContent = currentGuess;
-
-    requestAnimationFrame(startGuessAnimation);
-}
-
-// Когда число найдено
-function finishMining() {
-    mining = false;
-    targetDisplay.textContent = target;
-
-    balance += 10;
-    updateUI();
-
-    startButton.disabled = false;
-}
-
-// Генерация n-значного числа
-function generateRandomNumber(len) {
-    let out = "";
-    for (let i = 0; i < len; i++) {
-        out += Math.floor(Math.random() * 10);
-    }
-    return out;
-}
-
-// Случайное число в диапазоне
-function randomRange(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-}
-
-// Обновление баланса
-function updateUI() {
-    balanceDisplay.textContent = balance;
-}
+    if (document.body.classList.contains("day"))
+        document.getElementById("modeBtn").innerText = "Тёмный режим";
+    else
+        document.getElementById("modeBtn").innerText = "Светлый режим";
+};
