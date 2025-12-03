@@ -1,159 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ChatCoin Official Miner</title>
-    <style>
-
-        :root {
-            --bg: #0b0014;
-            --text: #9ce8ff;
-            --panel: rgba(255,255,255,0.04);
-        }
-
-        body.day {
-            --bg: #eaf6ff;
-            --text: #003b54;
-            --panel: rgba(0,0,0,0.07);
-        }
-
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: Arial, sans-serif;
-            margin: 0;
-            text-align: center;
-            transition: background 0.4s, color 0.4s;
-        }
-
-        .grid-bg {
-            position: fixed;
-            inset: 0;
-            background: repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(255,255,255,0.03) 30px, rgba(255,255,255,0.03) 31px),
-                        repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(255,255,255,0.03) 30px, rgba(255,255,255,0.03) 31px);
-            z-index: -1;
-            animation: moveGrid 10s linear infinite;
-        }
-
-        @keyframes moveGrid {
-            from { transform: translateY(0); }
-            to   { transform: translateY(30px); }
-        }
-
-        .title {
-            margin-top: 25px;
-            font-size: 38px;
-            font-weight: bold;
-            text-shadow: 0 0 12px currentColor;
-        }
-
-        .logo {
-            width: 120px;
-            margin-top: 20px;
-            filter: drop-shadow(0 0 10px currentColor);
-        }
-
-        .display-number {
-            margin-top: 20px;
-            font-size: 54px;
-            letter-spacing: 6px;
-            font-weight: bold;
-            text-shadow: 0 0 22px currentColor;
-        }
-
-        .panel {
-            margin: 25px auto;
-            padding: 20px;
-            width: 85%;
-            max-width: 600px;
-            background: var(--panel);
-            border-radius: 15px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 0 25px rgba(0,255,255,0.1);
-        }
-
-        .terminal {
-            margin-top: 15px;
-            font-family: "Courier New", monospace;
-            font-size: 24px;
-            color: var(--text);
-            text-shadow: 0 0 12px currentColor;
-        }
-
-        button {
-            width: 220px;
-            font-size: 22px;
-            margin: 20px;
-            padding: 12px;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            color: white;
-            background: linear-gradient(135deg, #0099ff, #00d5ff);
-            box-shadow: 0 0 12px #00d5ff;
-            transition: 0.2s;
-        }
-
-        button:hover {
-            box-shadow: 0 0 25px #00d5ff;
-        }
-
-        .mode-btn {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            width: 140px;
-        }
-
-        #modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.6);
-        }
-
-        #modalContent {
-            background: var(--bg);
-            margin: 150px auto;
-            padding: 25px;
-            width: 350px;
-            border-radius: 15px;
-            box-shadow: 0 0 25px currentColor;
-        }
-    </style>
+    <title>Macintosh System 7</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="grid-bg"></div>
-
-<img class="logo" src="https://i.imgur.com/7Z9gG6I.png">
-
-<h1 class="title">ChatCoin Official Miner</h1>
-
-<div class="display-number" id="target">00000000</div>
-
-<div class="panel">
-    <div>ТЕРМИНАЛ:</div>
-    <div class="terminal" id="try">00000000</div>
-</div>
-
-<button id="startBtn">НАЧАТЬ</button>
-
-<div class="panel">
-    Баланс: <span id="balance">0</span> CHC
-</div>
-
-<button id="withdrawBtn">ВЫВОД</button>
-
-<button class="mode-btn" id="modeBtn">Светлый режим</button>
-
-<div id="modal">
-    <div id="modalContent">
-        <h2>Чек ChatCoin</h2>
-        <p id="modalText"></p>
-        <button onclick="closeModal()">Закрыть</button>
+<div id="boot-screen">
+    <div class="welcome-box">
+        <p>Welcome to Macintosh</p>
     </div>
+</div>
+
+<div id="desktop" class="hidden">
+
+    <img src="assets/icons/harddisk.png" class="icon" id="icon-hd" alt="HD">
+    <img src="assets/icons/finder.png" class="icon" id="icon-finder" alt="Finder">
+    <img src="assets/icons/trash.png" class="icon" id="icon-trash" alt="Trash">
+
+    <div id="window" class="window hidden">
+        <div class="titlebar">
+            <span>About This Mac</span>
+            <img src="assets/icons/window-close.png" id="close-window" class="close-btn">
+        </div>
+        <div class="window-content">
+            <p><b>Macintosh System 7.1 (Emulated)</b></p>
+            <p>Memory: 8 MB</p>
+            <p>Processor: Motorola 68030</p>
+        </div>
+    </div>
+
 </div>
 
 <script src="script.js"></script>
