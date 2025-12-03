@@ -1,55 +1,73 @@
-let target = null;
 let mining = false;
+let currentGuess = 0;
+let target = "????????";
 let balance = 0;
+let miningTimeout;
 
-function newTarget() {
-    target = String(Math.floor(Math.random() * 100000000)).padStart(8, '0');
-    document.getElementById("numberBox").innerText = target;
-}
+const guessDisplay = document.getElementById("guess");
+const targetDisplay = document.getElementById("target");
+const balanceDisplay = document.getElementById("balance");
+const startButton = document.getElementById("startBtn");
 
-newTarget();
+updateUI();
 
-document.getElementById("startBtn").onclick = () => {
+// Запуск майнинга
+function startMining() {
     if (mining) return;
+
     mining = true;
-    mine();
-};
+    startButton.disabled = true;
 
-function mine() {
-    let current = 0;
-    const tryBox = document.getElementById("currentTry");
-    
-    let interval = setInterval(() => {
-        current = Math.floor(Math.random() * 100000000);
-        let formatted = String(current).padStart(8, '0');
-        tryBox.innerText = "Текущее число: " + formatted;
+    // Генерируем скрытое 8-значное число
+    target = generateRandomNumber(8);
+    targetDisplay.textContent = "????????";
 
-        if (formatted === target) {
-            clearInterval(interval);
-            mining = false;
+    startGuessAnimation();
 
-            balance += 10;
-            document.getElementById("balance").innerText =
-                "Баланс: " + balance + " CHC";
+    // Время добычи: 5–10 минут
+    const timeToWin = randomRange(5 * 60_000, 10 * 60_000);
 
-            newTarget();
-        }
-    }, 15);
+    miningTimeout = setTimeout(() => {
+        finishMining();
+    }, timeToWin);
 }
 
-document.getElementById("withdrawBtn").onclick = () => {
-    const receipt = document.getElementById("receipt");
-    const shillings = balance * 240;
+// Показывает быстро меняющиеся числа
+function startGuessAnimation() {
+    if (!mining) return;
 
-    receipt.style.display = "block";
+    currentGuess = generateRandomNumber(8);
+    guessDisplay.textContent = currentGuess;
 
-    receipt.innerHTML =
-        "====== ЧЕК CHC ======<br>" +
-        "Баланс: " + balance + " CHC<br>" +
-        "Курс: 1 CHC = 240 шиллингов<br>" +
-        "Выплачено: " + shillings + " шиллингов<br>" +
-        "======================";
+    requestAnimationFrame(startGuessAnimation);
+}
 
-    balance = 0;
-    document.getElementById("balance").innerText = "Баланс: 0 CHC";
-};
+// Когда число найдено
+function finishMining() {
+    mining = false;
+    targetDisplay.textContent = target;
+
+    balance += 10;
+    updateUI();
+
+    startButton.disabled = false;
+}
+
+// Генерация n-значного числа
+function generateRandomNumber(len) {
+    let out = "";
+    for (let i = 0; i < len; i++) {
+        out += Math.floor(Math.random() * 10);
+    }
+    return out;
+}
+
+// Случайное число в диапазоне
+function randomRange(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
+// Обновление баланса
+function updateUI() {
+    balanceDisplay.textContent = balance;
+}
