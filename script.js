@@ -1,15 +1,34 @@
-// Boot animation
-setTimeout(() => {
-    document.getElementById("boot-screen").classList.add("hidden");
-    document.getElementById("desktop").classList.remove("hidden");
-}, 2500); // 2.5 sec boot, как у старых маков
+let interval = null;
+let current = 0;
 
-// Open window on HD click
-document.getElementById("icon-hd").addEventListener("dblclick", () => {
-    document.getElementById("window").classList.remove("hidden");
+const numberEl = document.getElementById("currentNumber");
+const statusEl = document.getElementById("status");
+
+function updateDisplay(){
+  numberEl.innerText = String(current).padStart(8, "0");
+}
+
+document.getElementById("startBtn").addEventListener("click", () => {
+  if(interval) return; // уже работает
+
+  statusEl.innerText = "Перебор чисел…";
+
+  interval = setInterval(() => {
+    current = Math.floor(Math.random() * 100000000); // любое 8-значное
+    updateDisplay();
+  }, 30); // скорость
 });
 
-// Close window
-document.getElementById("close-window").addEventListener("click", () => {
-    document.getElementById("window").classList.add("hidden");
+document.getElementById("stopBtn").addEventListener("click", () => {
+  clearInterval(interval);
+  interval = null;
+  statusEl.innerText = "Остановлено";
+});
+
+document.getElementById("resetBtn").addEventListener("click", () => {
+  clearInterval(interval);
+  interval = null;
+  current = 0;
+  updateDisplay();
+  statusEl.innerText = "Сброшено";
 });
