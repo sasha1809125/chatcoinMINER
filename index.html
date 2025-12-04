@@ -1,30 +1,43 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>CHC Miner</title>
-<link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<title>ChatCoin Miner</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container">
-  <h1>CHC Miner</h1>
+
+  <h1>ChatCoin Official Miner</h1>
 
   <div class="screen">
-    <div class="label">Текущее число</div>
-    <div id="currentNumber" class="number">00000000</div>
+      <div class="label">Цель:</div>
+      <div id="target" class="num">00000000</div>
+
+      <div class="label">Перебор:</div>
+      <div id="current" class="num">00000000</div>
   </div>
 
-  <div class="controls">
-    <button id="startBtn">Запустить</button>
-    <button id="stopBtn">Остановить</button>
-    <button id="resetBtn">Сброс</button>
+  <button id="startBtn" class="btn start">НАЧАТЬ</button>
+
+  <div class="balance">
+      Баланс: <span id="balance">0</span> CHC
   </div>
 
-  <div id="status" class="status">Ожидание…</div>
+  <button id="withdraw" class="btn withdraw">ВЫВОД</button>
+
+</div>
+
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <h2>Чек CHC</h2>
+        <p id="checkText"></p>
+        <button id="closeModal" class="btn close">Закрыть</button>
+    </div>
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
