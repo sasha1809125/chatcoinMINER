@@ -1,34 +1,52 @@
-let interval = null;
-let current = 0;
+let mining = false;
+let balance = 0;
+let interval;
+let timeout;
 
-const numberEl = document.getElementById("currentNumber");
-const statusEl = document.getElementById("status");
+let target = random8();
+document.getElementById("target").innerText = target;
 
-function updateDisplay(){
-  numberEl.innerText = String(current).padStart(8, "0");
+function random8(){
+    return Math.floor(10000000 + Math.random() * 90000000).toString();
 }
 
-document.getElementById("startBtn").addEventListener("click", () => {
-  if(interval) return; // уже работает
+document.getElementById("startBtn").onclick = () => {
 
-  statusEl.innerText = "Перебор чисел…";
+    if(mining) return;
 
-  interval = setInterval(() => {
-    current = Math.floor(Math.random() * 100000000); // любое 8-значное
-    updateDisplay();
-  }, 30); // скорость
-});
+    mining = true;
 
-document.getElementById("stopBtn").addEventListener("click", () => {
-  clearInterval(interval);
-  interval = null;
-  statusEl.innerText = "Остановлено";
-});
+    interval = setInterval(() => {
+        const cur = Math.floor(Math.random()*100000000).toString().padStart(8,"0");
+        document.getElementById("current").innerText = cur;
+    }, 30);
 
-document.getElementById("resetBtn").addEventListener("click", () => {
-  clearInterval(interval);
-  interval = null;
-  current = 0;
-  updateDisplay();
-  statusEl.innerText = "Сброшено";
-});
+    const time = 300000 + Math.random()*300000; // 5-10 минут
+
+    timeout = setTimeout(() => {
+        mining = false;
+        clearInterval(interval);
+
+        balance += 10;
+        document.getElementById("balance").innerText = balance;
+
+        target = random8();
+        document.getElementById("target").innerText = target;
+
+    }, time);
+};
+
+document.getElementById("withdraw").onclick = () => {
+    const sh = balance * 240;
+    document.getElementById("checkText").innerHTML =
+        `Вы вывели <b>${balance} CHC</b><br>Это <b>${sh}</b> шиллингов`;
+
+    balance = 0;
+    document.getElementById("balance").innerText = balance;
+
+    document.getElementById("modal").style.display = "block";
+};
+
+document.getElementById("closeModal").onclick = () => {
+    document.getElementById("modal").style.display = "none";
+};
